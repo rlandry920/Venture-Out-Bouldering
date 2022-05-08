@@ -31,14 +31,6 @@ app.use('/forum', require('./routes/forum.router'));
 
 app.use(errorHandler);
 
-function ignoreFavicon(req, res, next) {
-  if (req.originalUrl.includes('favicon.ico')) {
-    res.status(204).end()
-  }
-  next();
-}
-app.use(ignoreFavicon)
-
 app.use(express.static(path.join(__dirname+'/venture-out-bouldering')));
 app.get('/', (req,res) => {
   res.sendFile(path.join(__dirname+'/venture-out-bouldering/index.html'))
