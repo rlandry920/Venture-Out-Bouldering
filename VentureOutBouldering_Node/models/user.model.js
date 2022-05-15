@@ -13,6 +13,11 @@ const schema = new Schema({
         completed:{type: [Number], require:false, default:[]},
         flashed:{type: [Number], require:false, default:[]},
         role: {type:String, required: true},
+        dateJoined: {type:Date, required: false},
+        totalBeginner: {type:Number, required:false, default: 0},
+        totalIntermediate: {type:Number, required:false, default: 0},
+        totalAdvanced: {type:Number, required:false, default: 0},
+        totalExpert: {type:Number, required:false, default: 0},
     }
 );
 

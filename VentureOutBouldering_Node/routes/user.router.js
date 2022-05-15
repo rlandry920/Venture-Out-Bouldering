@@ -11,6 +11,7 @@ router.post('/editlevel', userController.editClimbingLevel);
 router.post('/completeroute', userController.completeRoute);
 router.get('/getstats/:username', userController.getStats);
 router.get('/downloadusers', userController.downloadUsers);
-router.post('/addadmin', userController.addAdmin)
+router.post('/addadmin', userController.addAdmin);
+router.get('/gettotals/:username', userController.getTotals)
 
 module.exports = router;

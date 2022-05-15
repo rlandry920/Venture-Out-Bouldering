@@ -11,7 +11,8 @@ module.exports = {
     editClimbingLevel,
     completeRoute,
     downloadUsers,
-    addAdmin
+    addAdmin,
+    getTotals
 };
 
 
@@ -71,5 +72,11 @@ function downloadUsers(req, res, next)  {
 function addAdmin(req, res, next){
     userService.addAdmin(req.body)
         .then((message) => res.json({message: message}))
+        .catch(err => next(err));
+}
+
+function getTotals(req, res, next){
+    userService.getTotals(req.params.username)
+        .then(totals => res.json(totals))
         .catch(err => next(err));
 }

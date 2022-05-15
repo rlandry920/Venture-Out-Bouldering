@@ -19,7 +19,8 @@ module.exports = {
     editClimbingLevel,
     completeRoute,
     downloadUsers,
-    addAdmin
+    addAdmin,
+    getTotals
 }
 
 async function authenticate({ username, password }) {
@@ -77,6 +78,8 @@ async function addUser(userParam) {
 
     const user = new User(userParam);
 
+    user.dateJoined = new Date();
+
     // hash password
     if (userParam.password) {
         user.hash = bcrypt.hashSync(userParam.password, 10);
@@ -97,6 +100,19 @@ async function completeRoute({routeId, accuracy, rating, flashed},userid){
     }
     let route = await Route.findOne({num:routeId})
     await User.updateOne({_id: userid}, {$inc : {points: route['points']}})
+
+    if(route.grade == 0){
+        await User.updateOne({_id: userid}, {$inc : {totalBeginner: 1}})
+    }
+    else if(route.grade == 1){
+        await User.updateOne({_id: userid}, {$inc : {totalIntermediate: 1}})
+    }
+    else if(route.grade == 2){
+        await User.updateOne({_id: userid}, {$inc : {totalAdvanced: 1}})
+    }else if(route.grade == 3){
+        await User.updateOne({_id: userid}, {$inc : {totalExpert: 1}})
+    }
+
     await Route.updateOne(
         {num: routeId},
         {
@@ -109,6 +125,7 @@ async function completeRoute({routeId, accuracy, rating, flashed},userid){
     );
     return await User.updateOne({_id: userid}, {$push : {completed: routeId}});
 }
+
 async function downloadUsers(){
     const fields = ['username', 'email','firstName','lastName','climbingLevel','points','major','completed','flashed','role'];
     let users = await User.find({}).select('-hash')
@@ -126,4 +143,15 @@ async function addAdmin({email}){
     }
     await User.updateOne({email: email}, {$set : {role: "Admin"}})
     return user.username +' was added as Admin'
+}
+
+async function getTotals(username){
+    const user = await User.findOne({username:username});
+    const numBeginner = user.totalBeginner
+    const numIntermediate = user.totalIntermediate
+    const numAdvanced = user.totalAdvanced
+    const numExpert = user.totalExpert
+
+    const totalRoutes = [numBeginner,numIntermediate,numAdvanced,numExpert]
+    return totalRoutes
 }
