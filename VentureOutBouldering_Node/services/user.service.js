@@ -79,6 +79,7 @@ async function addUser(userParam) {
     const user = new User(userParam);
 
     user.dateJoined = new Date();
+    user.role = "User"
 
     // hash password
     if (userParam.password) {

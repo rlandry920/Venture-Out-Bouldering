@@ -15,7 +15,7 @@ const secret = config.secret;
             '/user/authenticate',
             '/runtime.f6b6fbf06d111d92.js',
             '/polyfills.2716d3162c90013a.js',
-            '/main.1d71e199157a90e4.js',
+            '/main.f2e4a89d438d2ec6.js',
             '/scripts.89fb26d303a01d2f.js',
             '/styles.69074501453484fb.css',
             '/favicon.ico'
